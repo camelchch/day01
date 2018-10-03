@@ -1,7 +1,9 @@
 #!/usr/bin/php
 <?php
 function ft_split_nosort($strs)
+{
 	return (array_filter(explode(" ", $strs), 'strlen'));
+}
 $res = NULL;
 $wt = 0;
 foreach($argv as $value)

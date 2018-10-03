@@ -1,68 +1,62 @@
 #!/usr/bin/php
 <?php
-$array1= array("ish3", "Ish3", "ish1", "123", "1948372)", "42453", "*l", "#j", "a", "A");
-natcasesort($array1);
-print_r($array1);
 function compare_char($char1, $char2)
 {
+	$char1 = strtolower($char1);
+	$char2 = strtolower($char2);
 	if ($char1 === $char2)
 	return (0);
-	if (ctype_alpha($char1))
+	if (97 <= ord($char1) && ord($char1) <= 123)
 	{
-		if (ctype_alpha($char2))
-			return (strtolower($char1) - strtolower($char1));
+		if (97 <= ord($char2) && ord($char2) <= 123)
+			return (ord($char1) - ord($char2));
 		else
 			return -1;
 	}
-	else if ( $char1 >= 30 && $char1 <= 39)
+	if (is_numeric($char1))
 	{
-		if ($char2 >= 30 && $char2 <= 39)
+		if (is_numeric($char2))
 			return ($char1 - $char2);
-		else if (ctype_alpha($char2))
+		if (97 <= ord($char2) && ord($char2) <= 123)
 			return 1;
 		return -1;
 	}
-	if (ctype_alpha($char2) || ($char2 >= 30 && $char2 <= 39))
-		return -1;
-	return 1;
+	if ((97 <= ord($char2) && ord($char2) <= 123) || is_numeric($char2))
+		return 1;
+	return (ord($char1) - ord($char2));
 }
+
 function compare_str($str1, $str2)
 {
-	$min_len = min(strlen(str1), strlen(str2));
+	$min_len = min(strlen($str1), strlen($str2));
 	$wt = 0;
 	while ($wt < $min_len)
 	{
-		if (compare_char($str1[wt], $str2[wt]))
-			return (compare_char($str1[wt], $str2[wt]));
+		if (compare_char($str1[$wt], $str2[$wt]))
+			return (compare_char($str1[$wt], $str2[$wt]));
 		$wt++;
 	}
 	return (strlen($str1) - strlen($str2));
 }
+
 function ft_split_nosort($strs)
+{
+	$res = explode(" ", $strs);
 	return (array_filter(explode(" ", $strs), 'strlen'));
+}
+
 $res = NULL;
 $wt = 0;
 foreach($argv as $value)
 {
-	if ($value !== "./ssap.php")
+	if ($value !== "./ssap2.php")
 	{
 	$strs_argv = ft_split_nosort($value);
 	foreach($strs_argv as $word)
 		$res[$wt++] = $word;
 	}
 }
-u
-/*
-function my_sort($str_array, $lenth)
-{
-	$no = 0;
-	$mini_str = $str_array[$no];
-	while ($no < $lenth)
-	{
-		$wt = $no + 1;
-
-	}
-
-}
-*/
+usort($res, compare_str);
+foreach($res as $mot)
+	echo "$mot\n";
 ?>
